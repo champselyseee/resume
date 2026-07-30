@@ -39,15 +39,34 @@
 
   function num(i) { return String(i + 1).padStart(2, "0"); }
 
-  // Квадратик логотипа. Имя берётся из logos.css (например "ukrtb").
+  // Квадратик логотипа. Картинка ищется двумя способами:
+  //   1) правило .logo--<имя> в logos.css (логотипы, вшитые прямо в стили);
+  //   2) файл logos/<имя>.png — ЭТОГО ДОСТАТОЧНО для новых логотипов:
+  //      положи картинку в папку logos/ и впиши это имя в content.js.
+  // Можно писать и с расширением: logo: "open.png" — тогда берётся ровно этот файл.
   // Логотипа нет — рисуем первую букву названия.
   function logoHTML(name, label) {
     if (name) {
-      return '<span class="logo logo--' + esc(name) + '" aria-hidden="true"></span>';
+      var safe = String(name).trim().replace(/[^A-Za-z0-9._-]/g, "");
+      var file = safe.indexOf(".") === -1 ? safe + ".png" : safe;
+      var cls = safe.replace(/\.[^.]*$/, "");
+      return '<span class="logo logo--' + esc(cls) +
+             '" style="' + esc("--logo-file:url('logos/" + file + "')") +
+             '" aria-hidden="true"></span>';
     }
     var letter = String(label || "").trim().charAt(0).toUpperCase();
     return '<span class="logo logo--empty" aria-hidden="true">' + esc(letter) + "</span>";
   }
+
+  // Правило для логотипов-файлов. Пишем его через :where(...) — у такого
+  // селектора нулевая важность, поэтому вшитые в logos.css картинки
+  // (.logo--telegram и т.п.) остаются главнее, а для всех остальных имён
+  // подхватывается файл из папки logos/.
+  (function addLogoFileRule() {
+    var style = document.createElement("style");
+    style.textContent = ":where(.logo){background-image:var(--logo-file)}";
+    document.head.appendChild(style);
+  })();
 
 
   /* ---------- Язык ---------- */

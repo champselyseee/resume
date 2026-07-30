@@ -58,6 +58,23 @@
     return '<span class="logo logo--empty" aria-hidden="true">' + esc(letter) + "</span>";
   }
 
+  // Кнопка-ссылка в строке (кейс-чемпионат, курс, работа...).
+  // Ссылки нет — кнопки нет, строка выглядит как обычно.
+  function goHTML(url, label) {
+    if (!url) return "";
+    return '<a class="row__go" href="' + esc(url) + '"' +
+           ' target="_blank" rel="noopener noreferrer"' +
+           ' aria-label="' + esc(label) + '" title="' + esc(label) + '">↗</a>';
+  }
+
+  // Логотип и ссылку берём из русского блока, если в текущем языке не заданы.
+  // Так их достаточно вписать ОДИН раз (в ru) — работает на всех языках.
+  function fromBase(item, base, index, key) {
+    if (item && item[key]) return item[key];
+    var ref = (base || [])[index];
+    return (ref && ref[key]) || "";
+  }
+
   // Правило для логотипов-файлов. Пишем его через :where(...) — у такого
   // селектора нулевая важность, поэтому вшитые в logos.css картинки
   // (.logo--telegram и т.п.) остаются главнее, а для всех остальных имён
@@ -113,11 +130,13 @@
     $("footerName").textContent = t.name;
     $("footerYear").textContent = "© " + new Date().getFullYear() + " · " + t.footerNote;
 
-    // Графы
-    $("educationList").innerHTML  = rowsHTML(t.education);
-    $("coursesList").innerHTML    = rowsHTML(t.courses);
-    $("experienceList").innerHTML = rowsHTML(t.experience);
-    $("casesList").innerHTML      = rowsHTML(t.cases);
+    // Графы. Вторым аргументом — русский блок: из него берутся логотипы и
+    // ссылки, если в текущем языке они не заданы.
+    var ru = CONTENT.ru;
+    $("educationList").innerHTML  = rowsHTML(t.education,  ru.education);
+    $("coursesList").innerHTML    = rowsHTML(t.courses,    ru.courses);
+    $("experienceList").innerHTML = rowsHTML(t.experience, ru.experience);
+    $("casesList").innerHTML      = rowsHTML(t.cases,      ru.cases);
 
     // Навыки по группам
     $("skillsList").innerHTML = t.skillGroups.map(function (group) {
@@ -131,17 +150,18 @@
 
     // Проекты
     $("projectsList").innerHTML = t.projects.map(function (p, i) {
+      var url = fromBase(p, ru.projects, i, "url");
       var inner =
-        logoHTML(p.logo, p.name) +
+        logoHTML(fromBase(p, ru.projects, i, "logo"), p.name) +
         '<span class="link__num">' + num(i) + "</span>" +
         '<span class="link__body">' +
           '<span class="link__name">' + esc(p.name) + "</span>" +
           (p.note ? '<span class="link__note">' + esc(p.note) + "</span>" : "") +
         "</span>";
 
-      if (p.url) {
+      if (url) {
         return "<li>" +
-                 '<a class="link" href="' + esc(p.url) + '" target="_blank" rel="noopener noreferrer">' +
+                 '<a class="link" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' +
                    inner + '<span class="link__arrow" aria-hidden="true">→</span>' +
                  "</a>" +
                "</li>";
@@ -160,14 +180,15 @@
     showMode();
   }
 
-  function rowsHTML(list) {
-    return (list || []).map(function (item) {
+  function rowsHTML(list, base) {
+    return (list || []).map(function (item, i) {
       return '<li class="row">' +
                '<span class="row__years">' + esc(item.years) + "</span>" +
                '<span class="row__body">' +
                  '<span class="row__head">' +
-                   logoHTML(item.logo, item.place) +
+                   logoHTML(fromBase(item, base, i, "logo"), item.place) +
                    '<span class="row__place">' + esc(item.place) + "</span>" +
+                   goHTML(fromBase(item, base, i, "url"), item.place) +
                  "</span>" +
                  (item.note ? '<span class="row__note">' + esc(item.note) + "</span>" : "") +
                "</span>" +

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Визитка</title>
+  <meta name="description" content="Личная страница-визитка: образование, опыт, навыки, проекты и контакты.">
+  <meta name="color-scheme" content="light dark">
+
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="Визитка">
+  <meta property="og:description" content="Личная страница-визитка: образование, опыт, навыки, проекты и контакты.">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=PT+Mono&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="logos.css">
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+
+      try {
+        var saved = localStorage.getItem('theme');
+        var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        root.setAttribute('data-theme', saved || system);
+      } catch (e) {}
+
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var seen = false;
+      try { seen = sessionStorage.getItem('introSeen') === '1'; } catch (e) {}
+
+      if (!seen && !reduced) {
+        root.classList.add('play-intro');
+        try { sessionStorage.setItem('introSeen', '1'); } catch (e) {}
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <div class="ruled" aria-hidden="true"></div>
+
+  <div class="sheet" id="top">
+
+    <!-- Ссылка для тех, кто ходит по странице с клавиатуры -->
+    <a class="skip" href="#main" id="skipLink"></a>
+
+    <!-- Шапка бланка: ячейки с разделительными линиями -->
+    <header class="form">
+      <a class="cell cell--mark" href="#top" id="monogram" aria-label="Наверх">—</a>
+
+      <nav class="cell cell--nav" id="sectionNav">
+        <a class="nav__link" href="#about" data-target="about">
+          <span class="nav__num">01</span><span data-i18n="aboutTitle"></span>
+        </a>
+        <a class="nav__link" href="#projects" data-target="projects">
+          <span class="nav__num">02</span><span data-i18n="projectsTitle"></span>
+        </a>
+        <a class="nav__link" href="#contacts" data-target="contacts">
+          <span class="nav__num">03</span><span data-i18n="contactsTitle"></span>
+        </a>
+      </nav>
+
+      <div class="cell cell--sheet">
+        <span class="cell__key" data-i18n="sheetLabel"></span>
+        <span class="cell__val" id="formKicker"></span>
+      </div>
+
+      <div class="cell cell--lang" role="group" id="langSwitch" aria-label="Язык / Language / Langue">
+        <button type="button" class="lang" data-lang="ru" lang="ru">RU</button>
+        <button type="button" class="lang" data-lang="en" lang="en">EN</button>
+        <button type="button" class="lang" data-lang="fr" lang="fr">FR</button>
+      </div>
+
+      <button type="button" class="cell cell--mode" id="themeToggle">
+        <span class="cell__key" data-i18n="modeLabel"></span>
+        <span class="cell__val" id="modeValue"></span>
+      </button>
+    </header>
+
+    <main id="main" tabindex="-1">
+
+      <!-- Титульный блок: имя и фото на одном уровне -->
+      <section class="mast">
+        <div class="intro" id="intro" aria-hidden="true">
+          <span class="intro__stamp" id="introText"></span>
+        </div>
+
+        <div class="mast__grid">
+          <div class="mast__col">
+            <h1 class="mast__name" id="heroName"></h1>
+            <p class="mast__statement" data-i18n="statement"></p>
+            <p class="mast__tagline" data-i18n="tagline"></p>
+
+            <!-- Быстрые кнопки. Ссылки меняются прямо здесь -->
+            <div class="mast__actions">
+              <a class="btn" href="https://t.me/chapselyseee" target="_blank" rel="noopener noreferrer">Telegram</a>
+              <a class="btn" href="mailto:you@example.com">Email</a>
+            </div>
+          </div>
+
+          <figure class="photo">
+            <span class="photo__frame"><img id="photo" src="photo.svg" alt="" width="640" height="800"></span>
+            <figcaption class="photo__cap">
+              <span data-i18n="photoLabel"></span> 01 · <span id="photoName"></span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- 01 — ОБО МНЕ -->
+      <section class="record" id="about" tabindex="-1">
+        <div class="record__bar">
+          <span class="record__num">01</span>
+          <h2 class="record__title" data-i18n="aboutTitle"></h2>
+        </div>
+
+        <div class="record__body">
+          <div class="block">
+            <h3 class="block__title" data-i18n="educationTitle"></h3>
+            <ul class="rows" id="educationList"></ul>
+          </div>
+
+          <div class="block">
+            <h3 class="block__title" data-i18n="coursesTitle"></h3>
+            <ul class="rows" id="coursesList"></ul>
+          </div>
+
+          <div class="block">
+            <h3 class="block__title" data-i18n="experienceTitle"></h3>
+            <ul class="rows" id="experienceList"></ul>
+          </div>
+
+          <div class="block">
+            <h3 class="block__title" data-i18n="casesTitle"></h3>
+            <ul class="rows" id="casesList"></ul>
+          </div>
+
+          <div class="block">
+            <h3 class="block__title" data-i18n="skillsTitle"></h3>
+            <div class="skillset" id="skillsList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 — ПРОЕКТЫ -->
+      <section class="record" id="projects" tabindex="-1">
+        <div class="record__bar">
+          <span class="record__num">02</span>
+          <h2 class="record__title" data-i18n="projectsTitle"></h2>
+        </div>
+
+        <div class="record__body">
+          <p class="lead" data-i18n="projectsNote"></p>
+          <ul class="rows rows--links" id="projectsList"></ul>
+        </div>
+      </section>
+
+      <!-- 03 — КОНТАКТЫ -->
+      <section class="record" id="contacts" tabindex="-1">
+        <div class="record__bar">
+          <span class="record__num">03</span>
+          <h2 class="record__title" data-i18n="contactsTitle"></h2>
+        </div>
+
+        <div class="record__body">
+          <div class="contact-head">
+            <p class="lead" data-i18n="contactsNote"></p>
+            <span class="stamp" data-i18n="contactsTitle" aria-hidden="true"></span>
+          </div>
+
+          <!-- ===================================================
+               КОНТАКТЫ. Чтобы поменять ссылку — правь href прямо тут.
+               Логотипы вшиты в logos.css (классы logo--telegram и т.д.).
+               =================================================== -->
+          <a class="mail" href="mailto:you@example.com">you@example.com</a>
+
+          <ul class="rows rows--links">
+            <li>
+              <a class="link" href="https://t.me/chapselyseee" target="_blank" rel="noopener noreferrer">
+                <span class="logo logo--telegram" aria-hidden="true"></span>
+                <span class="link__num">01</span>
+                <span class="link__body"><span class="link__name">Telegram</span></span>
+                <span class="link__arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+            <li>
+              <a class="link" href="https://vk.ru/champselysee" target="_blank" rel="noopener noreferrer">
+                <span class="logo logo--vk" aria-hidden="true"></span>
+                <span class="link__num">02</span>
+                <span class="link__body"><span class="link__name">ВКонтакте</span></span>
+                <span class="link__arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+            <li>
+              <a class="link" href="https://max.ru/username" target="_blank" rel="noopener noreferrer">
+                <span class="logo logo--max" aria-hidden="true"></span>
+                <span class="link__num">03</span>
+                <span class="link__body"><span class="link__name">MAX</span></span>
+                <span class="link__arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+            <li>
+              <a class="link" href="https://instagram.com/kamiblueaxa" target="_blank" rel="noopener noreferrer">
+                <span class="logo logo--instagram" aria-hidden="true"></span>
+                <span class="link__num">04</span>
+                <span class="link__body"><span class="link__name">Instagram</span></span>
+                <span class="link__arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Подпись внизу бланка -->
+    <footer class="sign">
+      <span class="sign__line"><span id="footerName"></span></span>
+      <span id="footerYear"></span>
+    </footer>
+
+  </div>
+
+  <script src="content.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

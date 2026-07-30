@@ -137,7 +137,7 @@ a { color: inherit; text-decoration: none; }
   top: 0;
   z-index: 8;
   display: grid;
-  grid-template-columns: auto auto minmax(0, 1fr) auto auto;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
   background: var(--paper);
   border-bottom: 1px solid var(--ink);
 }
@@ -201,8 +201,6 @@ a { color: inherit; text-decoration: none; }
   color: var(--ink);
   box-shadow: inset 0 -3px 0 var(--red);
 }
-
-.cell--sheet { color: var(--ink-faint); overflow: hidden; text-overflow: ellipsis; }
 
 .cell--mode {
   appearance: none;
@@ -666,16 +664,19 @@ html.play-intro .intro__stamp { animation: hit 0.55s cubic-bezier(0.2, 1.5, 0.35
 
 @media (max-width: 900px) {
   /* Шапка складывается в ОДИН ряд 45px вместо двух по 91px:
-     монограмма | лист | язык | тема. Навигация прячется — страница короткая,
+     монограмма | язык | тема. Навигация прячется — страница короткая,
      а разделы и так заметны по чёрным полосам-заголовкам. Ничего больше
      не листается вбок: горизонтальный скролл в шапке убран совсем. */
-  .form { grid-template-columns: auto minmax(0, 1fr) auto auto; }
   .cell--nav { display: none; }
   .cell { padding-left: 0.6rem; padding-right: 0.6rem; }
 
-  /* Язык: те же три кнопки, но у́же — иначе четыре графы не встают в строку.
-     Высоту не режем, зона нажатия остаётся во всю высоту шапки. */
-  .cell--lang { gap: 0.15rem; padding-left: 0.25rem; padding-right: 0.25rem; }
+  /* Язык занимает свободную графу, кнопки прижаты вправо — к переключателю темы. */
+  .cell--lang {
+    justify-content: flex-end;
+    gap: 0.15rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
   .lang { min-width: 2.3rem; padding: 0; }
 
   /* Тема: вместо длинного «РЕЖИМ ОРИГИНАЛ» — знак половинки круга.

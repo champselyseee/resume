@@ -122,7 +122,6 @@
     $("introText").textContent = t.greeting;
     $("skipLink").textContent = t.skipLabel;
     $("sectionNav").setAttribute("aria-label", t.navLabel);
-    $("formKicker").textContent = "01 · " + t.kicker;
     $("photoName").textContent = t.name;
     $("monogram").textContent = initials(t.name);
     $("monogram").setAttribute("aria-label", t.topLabel);

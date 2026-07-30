@@ -75,6 +75,7 @@ const CONTENT = {
         place: "OpenUniversity",
         note: "Чтение отчётов МСФО, мультипликаторы и оценка компании, оценка Ликвидности и платёжеспособности компании",
         logo: "opem",
+         url: "https://t.me/chapselyseee"
       },
       {
         years: "2025",

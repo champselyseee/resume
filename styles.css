@@ -54,8 +54,8 @@ html[data-theme="dark"] {
      --photo-zoom   насколько приблизить: 1 — как есть, 1.3 — ближе на треть
      --photo-focus  что держать в центре: первое число влево/вправо,
                     второе вверх/вниз. 50% 35% — выше центра, обычно так ловят лицо */
-  --photo-zoom:  1.5;
-  --photo-focus: 60% 50%;
+  --photo-zoom:  2.25;
+  --photo-focus: 65% 70%;
 }
 
 html.play-intro { --intro-offset: 1.1s; }

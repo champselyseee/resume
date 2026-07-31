@@ -14,6 +14,10 @@
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
+  <!-- Фото начинает грузиться сразу, не дожидаясь скриптов.
+       Если поменяешь имя файла в content.js — поменяй и здесь. -->
+  <link rel="preload" as="image" href="photo.webp" fetchpriority="high">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=PT+Mono&display=swap" rel="stylesheet">
@@ -102,7 +106,7 @@
           </div>
 
           <figure class="photo">
-            <span class="photo__frame"><img id="photo" src="photo.svg" alt="" width="640" height="800"></span>
+            <span class="photo__frame"><img id="photo" src="photo.svg" alt="" width="640" height="800" fetchpriority="high" decoding="async"></span>
             <figcaption class="photo__cap">
               <span data-i18n="photoLabel"></span> 01 · <span id="photoName"></span>
             </figcaption>
